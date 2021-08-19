@@ -38,6 +38,12 @@ Currently, this application supports windows and linux, and the following metric
 
 Haproxy.AgentCheck should be installed as a windows service, in order to be independent of eventual IIS resource exhaustion.
 
+```
+New-Service -Name HaproxyAgentCheck -BinaryPathName "Haproxy.AgentCheck.exe" -Description "Agent for Haproxy to expose server health" -DisplayName "Haproxy Agent Check" -StartupType Automatic
+Start-Service HaproxyAgentCheck
+New-NetFirewallRule -DisplayName "Haproxy Agent Check" -Direction Inbound -Program "Haproxy.AgentCheck.exe" -Action Allow
+```
+
 ## Configuration
 
 Settings are defined via appsettings.config
