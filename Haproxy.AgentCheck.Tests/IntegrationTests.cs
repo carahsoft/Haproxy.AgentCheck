@@ -82,6 +82,7 @@ namespace Haproxy.AgentCheck.Tests
             options.CpuLimit = 42;
             options.IisRequestsLimit = 42;
             options.RefreshIntervalInMs = 200;
+            options.MovingAverageSamples = 1;
             options.SystemResponse = SystemResponse.FirstOrder;
         }
     }

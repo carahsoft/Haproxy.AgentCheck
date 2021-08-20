@@ -1,16 +1,24 @@
 using System;
 using System.IO;
+using Haproxy.AgentCheck.Config;
+using Microsoft.Extensions.Options;
 
 namespace Haproxy.AgentCheck.Metrics
 {
     public sealed class LinuxStateCollector : IStateCollector
     {
         private readonly State _state;
+        private readonly SimpleMovingAverage _movingAverage;
         private ProcStat _lastStat = ProcStat.Empty;
 
-        public LinuxStateCollector(State state)
+        public LinuxStateCollector(IOptionsMonitor<AgentCheckConfig> options, State state)
         {
             _state = state;
+
+            if (options == null)
+                throw new ArgumentNullException(nameof(options), "Must be not null");
+
+            _movingAverage = new SimpleMovingAverage(options.CurrentValue.MovingAverageSamples);
         }
 
         public void Collect()
@@ -19,7 +27,7 @@ namespace Haproxy.AgentCheck.Metrics
             var stat = ProcStat.FromLine(reader.ReadLine());
 
             if (_lastStat != ProcStat.Empty)
-                _state.CpuPercent = _lastStat.AverageCpuWith(stat);
+                _state.CpuPercent = (int)_movingAverage.Update(_lastStat.AverageCpuWith(stat));
 
             _lastStat = stat;
         }

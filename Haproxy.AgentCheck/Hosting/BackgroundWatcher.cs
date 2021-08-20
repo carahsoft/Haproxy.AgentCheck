@@ -43,6 +43,7 @@ namespace Haproxy.AgentCheck.Hosting
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
+            _timer?.Dispose();
             return Task.CompletedTask;
         }
 

@@ -26,6 +26,12 @@ namespace Haproxy.AgentCheck.Config
                     $"IisRequestsLimit must be positive and not null. Actual value is {c.IisRequestsLimit}");
             }
 
+            if (c.MovingAverageSamples <= 0)
+            {
+                throw new AgentCheckConfigurationException(
+                    $"MovingAverageSamples must be positive and not null. Actual value is {c.MovingAverageSamples}");
+            }
+
             if (c.RefreshIntervalInMs < 100)
             {
                 throw new AgentCheckConfigurationException(

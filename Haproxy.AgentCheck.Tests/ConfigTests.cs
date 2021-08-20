@@ -12,7 +12,8 @@ namespace Haproxy.AgentCheck.Tests
             var conf = new AgentCheckConfig
             {
                 IisRequestsLimit = 42,
-                RefreshIntervalInMs = 2000
+                RefreshIntervalInMs = 2000,
+                MovingAverageSamples = 1
             };
 
             Assert.Throws<AgentCheckConfigurationException>(() =>
@@ -35,7 +36,8 @@ namespace Haproxy.AgentCheck.Tests
             var conf = new AgentCheckConfig
             {
                 CpuLimit = 80,
-                RefreshIntervalInMs = 2000
+                RefreshIntervalInMs = 2000,
+                MovingAverageSamples = 1
             };
 
             Assert.Throws<AgentCheckConfigurationException>(() =>
@@ -58,7 +60,8 @@ namespace Haproxy.AgentCheck.Tests
             var conf = new AgentCheckConfig
             {
                 CpuLimit = 80,
-                IisRequestsLimit = 42
+                IisRequestsLimit = 42,
+                MovingAverageSamples = 1
             };
 
             Assert.Throws<AgentCheckConfigurationException>(() =>
@@ -83,6 +86,7 @@ namespace Haproxy.AgentCheck.Tests
                 CpuLimit = 80,
                 IisRequestsLimit = 42,
                 RefreshIntervalInMs = 2000,
+                MovingAverageSamples = 1,
                 SystemResponse = (SystemResponse) (-1)
             };
             Assert.Throws<AgentCheckConfigurationException>(() =>
