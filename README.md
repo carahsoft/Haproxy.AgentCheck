@@ -21,10 +21,10 @@ In practice :
 - You set a limit to 90% CPU on each probe in a 5 host cluster.
 - In Haproxy configuration, you have a weight of 100 for all 4 backends.
 - The Haproxy.AgentCheck on one host is called by Haproxy on TCP.
-- Suddenly one host is at 40% CPU, Haproxy.AgentCheck returns the value : `up 13%`.
+- Suddenly one host is at 40% CPU, Haproxy.AgentCheck returns the value : `13%`.
 - Then Haproxy adjust the backend weight for this host, doing so prioritizes hosts with more resource available.
 
-You can see the adjusted backend weights on the Haproxy-Gui directly (response is `up 87%` in the screenshot) :
+You can see the adjusted backend weights on the Haproxy-Gui directly (response is `87%` in the screenshot) :
 
 ![adjusted backends](docs/adjusted_backends.png)
 

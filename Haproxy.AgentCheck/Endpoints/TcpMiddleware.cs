@@ -20,7 +20,7 @@ namespace Haproxy.AgentCheck.Endpoints
             if (connection == null)
                 throw new ArgumentNullException(nameof(connection));
 
-            await connection.Transport.Output.WriteAsync(Encoding.ASCII.GetBytes($"up {_stateProjection.Weight}%\n").AsMemory());
+            await connection.Transport.Output.WriteAsync(Encoding.ASCII.GetBytes($"{_stateProjection.Weight}%\n").AsMemory());
             await connection.Transport.Output.FlushAsync();
         }
     }

@@ -58,7 +58,7 @@ namespace Haproxy.AgentCheck.Tests
             await stream.ReadAsync(buffer);
 
             var response = Encoding.ASCII.GetString(buffer.Span);
-            Assert.StartsWith("up", response);
+            Assert.Contains("%", response);
         }
     }
 
