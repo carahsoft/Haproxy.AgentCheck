@@ -44,6 +44,15 @@ Start-Service HaproxyAgentCheck
 New-NetFirewallRule -DisplayName "Haproxy Agent Check" -Direction Inbound -Program "Haproxy.AgentCheck.exe" -Action Allow
 ```
 
+On Linux Haproxy.AgentCheck can be run in a docker container.
+
+```
+docker build -t haproxyagentcheck .
+docker run -d --name="haproxyagentcheck" \
+  -v /etc/localtime:/etc/localtime:ro \
+  -p 8042:8042 -p 4243:4243 --restart always haproxyagentcheck
+```
+
 ## Configuration
 
 Settings are defined via appsettings.config
@@ -56,6 +65,14 @@ Settings are defined via appsettings.config
     "IisRequestsLimit": 40,
     "SystemResponse": "FirstOrder"
   }
+```
+
+## Haproxy configuration
+
+Add the agent-check settings to the backend.
+
+```
+    default-server weight 100 agent-check agent-port 4243
 ```
 
 ## System response
