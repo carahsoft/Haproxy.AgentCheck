@@ -22,6 +22,21 @@ namespace Haproxy.AgentCheck.Tests
         }
 
         [Fact]
+        public void ProcStatLongParsing()
+        {
+            string sample = "cpu  655913008 114228 308101923 8419930804 43200740 0 11210587 0 0 0";
+            var stat = ProcStat.FromLine(sample);
+
+            Assert.Equal(655913008, stat.User);
+            Assert.Equal(114228, stat.Nice);
+            Assert.Equal(308101923, stat.System);
+            Assert.Equal(8419930804, stat.Idle);
+            Assert.Equal(43200740, stat.Iowait);
+            Assert.Equal(0, stat.Irq);
+            Assert.Equal(11210587, stat.Softirq);
+        }
+
+        [Fact]
         public void ManPageExampleParsing()
         {
             string sample = "cpu 10132153 290696 3084719 46828483 16683 0 25195 0 175628 0";

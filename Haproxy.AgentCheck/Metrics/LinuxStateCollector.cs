@@ -40,9 +40,9 @@ namespace Haproxy.AgentCheck.Metrics
 
     internal class ProcStat
     {
-        private readonly int[] _stats;
+        private readonly long[] _stats;
 
-        private ProcStat(int[] stats)
+        private ProcStat(long[] stats)
         {
             _stats = stats;
         }
@@ -57,14 +57,14 @@ namespace Haproxy.AgentCheck.Metrics
 
             var span = firstProcStatLine.AsSpan();
             span = span.Slice(3).TrimStart(' '); // "cpu"
-            var stats = new int[7];
+            var stats = new long[7];
 
             for (int i = 0; i < 7; i++)
             {
                 var nextSpace = span.IndexOf(' ');
                 if (nextSpace == -1)
                     throw new ArgumentException("/proc/stat structure is invalid", nameof(firstProcStatLine));
-                stats[i] = int.Parse(span.Slice(0, nextSpace));
+                stats[i] = long.Parse(span.Slice(0, nextSpace));
                 span = span.Slice(nextSpace + 1);
             }
 
@@ -73,36 +73,36 @@ namespace Haproxy.AgentCheck.Metrics
 
         internal int AverageCpuWith(ProcStat with) => 100 - (int)Math.Floor((Idle - with.Idle) * 100 / (double)(Total - with.Total));
 
-        public static ProcStat Empty { get; } = new ProcStat(new int[7]);
+        public static ProcStat Empty { get; } = new ProcStat(new long[7]);
 
         /// <summary>
         /// normal processes executing in user mode
         /// </summary>
-        public int User => _stats[0];
+        public long User => _stats[0];
         /// <summary>
         /// niced processes executing in user mode
         /// </summary>
-        public int Nice => _stats[1];
+        public long Nice => _stats[1];
         /// <summary>
         /// processes executing in kernel mode
         /// </summary>
-        public int System => _stats[2];
+        public long System => _stats[2];
         /// <summary>
         /// twiddling thumbs
         /// </summary>
-        public int Idle => _stats[3];
+        public long Idle => _stats[3];
         /// <summary>
         /// waiting for I/O to complete
         /// </summary>
-        public int Iowait => _stats[4];
+        public long Iowait => _stats[4];
         /// <summary>
         /// servicing interrupts
         /// </summary>
-        public int Irq => _stats[5];
+        public long Irq => _stats[5];
         /// <summary>
         /// servicing softirqs
         /// </summary>
-        public int Softirq => _stats[6];
+        public long Softirq => _stats[6];
 
         private long Total =>
             _stats[0] +
